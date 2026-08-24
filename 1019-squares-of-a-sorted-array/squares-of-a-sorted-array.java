@@ -1,5 +1,6 @@
 class Solution {
     public int[] sortedSquares(int[] nums) {
+
         int n = nums.length;
         int[] result = new int[n];
 
@@ -8,6 +9,7 @@ class Solution {
         int index = n - 1;
 
         while (left <= right) {
+
             int leftSquare = nums[left] * nums[left];
             int rightSquare = nums[right] * nums[right];
 
@@ -18,6 +20,7 @@ class Solution {
                 result[index] = rightSquare;
                 right--;
             }
+
             index--;
         }
 
