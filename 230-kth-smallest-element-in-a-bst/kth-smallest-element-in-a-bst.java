@@ -1,23 +1,33 @@
-import java.util.*;
-
 class Solution {
+
+    int count = 0;
+    int ans = 0;
+
     public int kthSmallest(TreeNode root, int k) {
-        Stack<TreeNode> stack = new Stack<>();
-        TreeNode curr = root;
 
-        while (true) {
-        
-            while (curr != null) {
-                stack.push(curr);
-                curr = curr.left;
-            }
+        inorder(root, k);
 
-            curr = stack.pop();
-            k--;
+        return ans;
+    }
 
-            if (k == 0) return curr.val;
+    public void inorder(TreeNode root, int k) {
 
-            curr = curr.right;
+        if (root == null) {
+            return;
         }
+
+        // Left
+        inorder(root.left, k);
+
+        // Root
+        count++;
+
+        if (count == k) {
+            ans = root.val;
+            return;
+        }
+
+        // Right
+        inorder(root.right, k);
     }
 }
