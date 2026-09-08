@@ -3,46 +3,50 @@ import java.util.*;
 class Solution {
 
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        // Map: column -> list of (row, value)
+
+        // col -> list of {row, value}
         TreeMap<Integer, List<int[]>> map = new TreeMap<>();
 
-        // BFS queue: node, row, col
-        Queue<Object[]> queue = new LinkedList<>();
-        queue.offer(new Object[]{root, 0, 0});
+        dfs(root, 0, 0, map);
 
-        while (!queue.isEmpty()) {
-            Object[] curr = queue.poll();
-            TreeNode node = (TreeNode) curr[0];
-            int row = (int) curr[1];
-            int col = (int) curr[2];
-
-            map.putIfAbsent(col, new ArrayList<>());
-            map.get(col).add(new int[]{row, node.val});
-
-            if (node.left != null)
-                queue.offer(new Object[]{node.left, row + 1, col - 1});
-
-            if (node.right != null)
-                queue.offer(new Object[]{node.right, row + 1, col + 1});
-        }
-
-        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
 
         for (List<int[]> list : map.values()) {
-            // sort by row, then value
+
+            // Sort by row, then by value
             Collections.sort(list, (a, b) -> {
-                if (a[0] != b[0]) return a[0] - b[0];
+                if (a[0] != b[0]) {
+                    return a[0] - b[0];
+                }
                 return a[1] - b[1];
             });
 
-            List<Integer> colList = new ArrayList<>();
-            for (int[] arr : list) {
-                colList.add(arr[1]);
+            List<Integer> temp = new ArrayList<>();
+
+            for (int[] x : list) {
+                temp.add(x[1]);
             }
 
-            result.add(colList);
+            ans.add(temp);
         }
 
-        return result;
+        return ans;
+    }
+
+    public void dfs(TreeNode root, int row, int col,
+                    TreeMap<Integer, List<int[]>> map) {
+
+        if (root == null) {
+            return;
+        }
+
+        map.putIfAbsent(col, new ArrayList<>());
+        map.get(col).add(new int[]{row, root.val});
+
+        // Left child
+        dfs(root.left, row + 1, col - 1, map);
+
+        // Right child
+        dfs(root.right, row + 1, col + 1, map);
     }
 }
