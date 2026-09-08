@@ -1,16 +1,27 @@
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        if (root == null) return true;
-        return isMirror(root.left, root.right);
+        return check(root.left, root.right);
     }
 
-    private boolean isMirror(TreeNode left, TreeNode right) {
-      
-        if (left == null && right == null) return true;
+    public boolean check(TreeNode a, TreeNode b) {
 
-        if (left == null || right == null || left.val != right.val) return false;
+        // Both nodes are null
+        if (a == null && b == null) {
+            return true;
+        }
 
-        return isMirror(left.left, right.right) &&
-               isMirror(left.right, right.left);
+        // One node is null
+        if (a == null || b == null) {
+            return false;
+        }
+
+        // Values are different
+        if (a.val != b.val) {
+            return false;
+        }
+
+        // Compare opposite sides
+        return check(a.left, b.right) &&
+               check(a.right, b.left);
     }
 }
