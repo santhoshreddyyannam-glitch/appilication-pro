@@ -1,24 +1,43 @@
 import java.util.*;
 
 class Solution {
+
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
-        List<List<Integer>> result = new ArrayList<>();
-        dfs(root, targetSum, new ArrayList<>(), result);
-        return result;
+
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+
+        dfs(root, targetSum, path, ans);
+
+        return ans;
     }
 
-    private void dfs(TreeNode node, int sum, List<Integer> path, List<List<Integer>> result) {
-        if (node == null) return;
+    public void dfs(TreeNode root, int targetSum,
+                    List<Integer> path,
+                    List<List<Integer>> ans) {
 
-        path.add(node.val);
-
-        if (node.left == null && node.right == null && sum == node.val) {
-            result.add(new ArrayList<>(path)); 
-        } else {
-            dfs(node.left, sum - node.val, path, result);
-            dfs(node.right, sum - node.val, path, result);
+        if (root == null) {
+            return;
         }
 
+        // Add current node
+        path.add(root.val);
+
+        // Check if it is a leaf
+        if (root.left == null && root.right == null) {
+
+            if (root.val == targetSum) {
+                ans.add(new ArrayList<>(path));
+            }
+
+        } else {
+
+            // Go to left and right
+            dfs(root.left, targetSum - root.val, path, ans);
+            dfs(root.right, targetSum - root.val, path, ans);
+        }
+
+        // Backtrack
         path.remove(path.size() - 1);
     }
 }
