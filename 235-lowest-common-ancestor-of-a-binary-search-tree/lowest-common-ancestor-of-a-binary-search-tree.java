@@ -1,16 +1,18 @@
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        while (root != null) {
-            if (p.val < root.val && q.val < root.val) {
-                root = root.left; // go left
-            } 
-            else if (p.val > root.val && q.val > root.val) {
-                root = root.right; // go right
-            } 
-            else {
-                return root; // split point
-            }
+
+        // Both p and q are smaller
+        if (p.val < root.val && q.val < root.val) {
+            return lowestCommonAncestor(root.left, p, q);
         }
-        return null;
+
+        // Both p and q are larger
+        if (p.val > root.val && q.val > root.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        }
+
+        // They are on different sides
+        // or root is p or q
+        return root;
     }
 }
