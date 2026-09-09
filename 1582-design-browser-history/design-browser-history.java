@@ -1,8 +1,7 @@
-import java.util.*;
 
 class BrowserHistory {
 
-    List<String> history;
+    ArrayList<String> history;
     int current;
 
     public BrowserHistory(String homepage) {
@@ -10,23 +9,29 @@ class BrowserHistory {
         history.add(homepage);
         current = 0;
     }
-    
+
     public void visit(String url) {
 
+        // Remove forward history
         while (history.size() > current + 1) {
             history.remove(history.size() - 1);
         }
+
         history.add(url);
         current++;
     }
-    
+
     public String back(int steps) {
+
         current = Math.max(0, current - steps);
+
         return history.get(current);
     }
-    
+
     public String forward(int steps) {
+
         current = Math.min(history.size() - 1, current + steps);
+
         return history.get(current);
     }
 }
