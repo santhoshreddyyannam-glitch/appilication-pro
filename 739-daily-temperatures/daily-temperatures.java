@@ -2,18 +2,18 @@ import java.util.*;
 
 class Solution {
     public int[] dailyTemperatures(int[] temperatures) {
-        int n = temperatures.length;
-        int[] result = new int[n];
-        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[temperatures.length];
+        Stack<Integer> st = new Stack<>();
 
-        for (int i = 0; i < n; i++) {
-            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {
-                int prevIndex = stack.pop();
-                result[prevIndex] = i - prevIndex;
+        for (int i = 0; i < temperatures.length; i++) {
+            while (!st.isEmpty() && temperatures[i] > temperatures[st.peek()]) {
+                int j = st.pop();
+                ans[j] = i - j;
             }
-            stack.push(i);
+
+            st.push(i);
         }
 
-        return result;
+        return ans;
     }
 }
